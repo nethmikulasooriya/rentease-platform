@@ -1,0 +1,9 @@
+target/
+node_modules/
+.idea/
+*.class
+*.jar
+!**/src/main/**/*.jar
+.env
+*.log
+.DS_Store
