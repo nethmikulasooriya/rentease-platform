@@ -16,31 +16,34 @@ public class VehicleSpecification {
 
             predicates.add(criteriaBuilder.equal(root.get("status"), "ACTIVE"));
 
-            if (category != null && !category.isEmpty()) {
-                predicates.add(criteriaBuilder.equal(root.get("category"), category));
+            if (category != null && !category.trim().isEmpty()) {
+                predicates.add(criteriaBuilder.equal(criteriaBuilder.upper(root.get("category")), category.trim().toUpperCase()));
             }
-            if (city != null && !city.isEmpty()) {
-                predicates.add(criteriaBuilder.equal(root.get("city"), city));
+            if (city != null && !city.trim().isEmpty()) {
+                String pattern = "%" + city.trim().toLowerCase() + "%";
+                Predicate cityMatch = criteriaBuilder.like(criteriaBuilder.lower(root.get("city")), pattern);
+                Predicate districtMatch = criteriaBuilder.like(criteriaBuilder.lower(root.get("district")), pattern);
+                predicates.add(criteriaBuilder.or(cityMatch, districtMatch));
             }
-            if (district != null && !district.isEmpty()) {
-                predicates.add(criteriaBuilder.equal(root.get("district"), district));
+            if (district != null && !district.trim().isEmpty()) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("district")), "%" + district.trim().toLowerCase() + "%"));
             }
-            if (minRate != null) {
+            if (minRate != null && minRate > 0) {
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("dailyRateLKR"), minRate));
             }
-            if (maxRate != null) {
+            if (maxRate != null && maxRate > 0) {
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("dailyRateLKR"), maxRate));
             }
             if (hasAC != null) {
                 predicates.add(criteriaBuilder.equal(root.get("hasAC"), hasAC));
             }
-            if (transmission != null && !transmission.isEmpty()) {
-                predicates.add(criteriaBuilder.equal(root.get("transmission"), transmission));
+            if (transmission != null && !transmission.trim().isEmpty()) {
+                predicates.add(criteriaBuilder.equal(criteriaBuilder.upper(root.get("transmission")), transmission.trim().toUpperCase()));
             }
-            if (fuel != null && !fuel.isEmpty()) {
-                predicates.add(criteriaBuilder.equal(root.get("fuel"), fuel));
+            if (fuel != null && !fuel.trim().isEmpty()) {
+                predicates.add(criteriaBuilder.equal(criteriaBuilder.upper(root.get("fuel")), fuel.trim().toUpperCase()));
             }
-            if (minSeats != null) {
+            if (minSeats != null && minSeats > 0) {
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("seats"), minSeats));
             }
 

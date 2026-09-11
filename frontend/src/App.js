@@ -21,6 +21,7 @@ import CustomerRegisterPage from './pages/customer/CustomerRegisterPage';
 import CustomerLoginPage from './pages/customer/CustomerLoginPage';
 import CustomerDashboardPage from './pages/customer/CustomerDashboardPage';
 import BookingDetailPage from './pages/customer/BookingDetailPage';
+import CheckoutPage from './pages/customer/CheckoutPage';
 
 // Admin
 import AdminLoginPage from './pages/admin/AdminLoginPage';
@@ -89,6 +90,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/vehicles" element={<SearchResultsPage />} />
           <Route path="/vehicles/:id" element={<VehicleDetailPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/owner/register" element={<OwnerRegisterPage />} />
           <Route path="/owner/login" element={<OwnerLoginPage />} />
           <Route path="/customer/register" element={<CustomerRegisterPage />} />

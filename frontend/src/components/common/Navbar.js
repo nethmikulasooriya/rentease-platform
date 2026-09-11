@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { CarFront } from 'lucide-react';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -40,8 +41,8 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       {/* LEFT — Brand */}
-      <Link to="/" className="navbar-brand">
-        <div className="logo-icon">🚗</div>
+      <Link to="/" style={{ fontSize: '24px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <CarFront size={28} color="var(--primary)" fill="var(--primary)" />
         RentEase
       </Link>
 

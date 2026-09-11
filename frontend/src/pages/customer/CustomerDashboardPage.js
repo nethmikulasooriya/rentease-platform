@@ -7,8 +7,17 @@ const CustomerDashboardPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    bookingApi.getByCustomer()
-      .then(res => setBookings(res.data.items || []))
+    const customerId = localStorage.getItem('rentease_userId');
+    if (!customerId) {
+      setLoading(false);
+      return;
+    }
+    bookingApi.getByCustomer(customerId)
+      .then(res => {
+        // Handle both paginated response or direct array
+        const list = res.data?.content || res.data?.items || (Array.isArray(res.data) ? res.data : []);
+        setBookings(list);
+      })
       .catch(err => console.error(err))
       .finally(() => setLoading(false));
   }, []);
@@ -36,7 +45,7 @@ const CustomerDashboardPage = () => {
                 <tr key={b.id}>
                   <td>{b.vehicleName}</td>
                   <td>{b.startDate} to {b.endDate}</td>
-                  <td>LKR {b.totalAmount}</td>
+                  <td>LKR {b.estimatedCostLKR}</td>
                   <td>{getStatusBadge(b.status)}</td>
                   <td>
                     <Link to={`/customer/bookings/${b.id}`}><button className="btn-secondary" style={{ padding: '4px 8px', fontSize: '12px' }}>View Details</button></Link>

@@ -7,8 +7,16 @@ const OwnerVehiclesPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    catalogApi.getOwnerVehicles()
-      .then(res => setVehicles(res.data.items || []))
+    const ownerId = localStorage.getItem('rentease_userId');
+    if (!ownerId) {
+      setLoading(false);
+      return;
+    }
+    catalogApi.getOwnerVehicles(ownerId)
+      .then(res => {
+        const list = res.data?.content || res.data?.items || (Array.isArray(res.data) ? res.data : []);
+        setVehicles(list);
+      })
       .catch(err => console.error(err))
       .finally(() => setLoading(false));
   }, []);

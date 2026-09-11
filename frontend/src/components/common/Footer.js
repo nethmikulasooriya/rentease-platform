@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { CarFront } from 'lucide-react';
+
 const Footer = () => {
   return (
     <footer className="footer">
@@ -8,7 +10,7 @@ const Footer = () => {
         <div className="footer-grid">
           <div>
             <h2 style={{ color: 'white', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              🚗 RentEase
+              <CarFront size={24} color="#fff" /> RentEase
             </h2>
             <p style={{ fontSize: '14px', marginBottom: '16px' }}>Sri Lanka's premier vehicle rental marketplace.</p>
           </div>

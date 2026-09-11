@@ -27,18 +27,50 @@ const OwnerLoginPage = () => {
   };
 
   return (
-    <div className="container" style={{ maxWidth: '500px', padding: '64px 16px' }}>
-      <div className="card">
-        <h2 className="mb-4" style={{ textAlign: 'center' }}>Owner Login</h2>
-        {error && <div style={{ color: 'red', marginBottom: '16px', textAlign: 'center' }}>{error}</div>}
+    <div style={{ maxWidth: '440px', margin: '60px auto', padding: '0 20px' }}>
+      <div className="card" style={{ padding: '36px' }}>
+        <h2 style={{ textAlign: 'center', marginBottom: '8px', fontSize: '24px', fontWeight: '800' }}>Owner Login</h2>
+        <p style={{ textAlign: 'center', color: '#6B7280', marginBottom: '24px', fontSize: '14px' }}>Welcome back to the Partner Portal</p>
+        
+        {error && (
+          <div style={{ background: '#FEE2E2', color: '#991B1B', padding: '12px 16px', borderRadius: '10px', fontSize: '14px', marginBottom: '20px', border: '1px solid #FCA5A5' }}>
+            ⚠️ {error}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
-          <div className="form-group"><label>Email</label><input type="email" required value={form.email} onChange={e => setForm({...form, email: e.target.value})} /></div>
-          <div className="form-group"><label>Password</label><input type="password" required value={form.password} onChange={e => setForm({...form, password: e.target.value})} /></div>
-          <button type="submit" className="btn-primary" style={{ width: '100%', marginTop: '16px' }} disabled={loading}>
+          <div className="form-group" style={{ marginBottom: '16px' }}>
+            <label className="form-label">Email Address</label>
+            <input 
+              className="form-input" 
+              type="email" 
+              required 
+              placeholder="owner@rentease.com"
+              value={form.email} 
+              onChange={e => setForm({...form, email: e.target.value})} 
+            />
+          </div>
+
+          <div className="form-group" style={{ marginBottom: '24px' }}>
+            <label className="form-label">Password</label>
+            <input 
+              className="form-input" 
+              type="password" 
+              required 
+              placeholder="••••••••"
+              value={form.password} 
+              onChange={e => setForm({...form, password: e.target.value})} 
+            />
+          </div>
+
+          <button type="submit" className="btn-primary" disabled={loading} style={{ width: '100%' }}>
             {loading ? 'Logging in...' : 'Log In'}
           </button>
         </form>
-        <p style={{ textAlign: 'center', marginTop: '16px' }}>Don't have an account? <Link to="/owner/register">Register</Link></p>
+
+        <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '14px', color: '#6B7280' }}>
+          Don't have an account? <Link to="/owner/register" style={{ color: 'var(--primary)', fontWeight: '600' }}>Register</Link>
+        </p>
       </div>
     </div>
   );

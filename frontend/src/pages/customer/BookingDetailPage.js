@@ -19,7 +19,7 @@ const BookingDetailPage = () => {
 
   return (
     <div>
-      <h2 className="mb-4">Booking Details #{booking.id.substring(0, 8)}</h2>
+      <h2 className="mb-4">Booking Details #{booking.id}</h2>
       <div className="grid-2">
         <div className="card">
           <h3 className="mb-4">Trip Information</h3>

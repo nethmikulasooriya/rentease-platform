@@ -8,9 +8,17 @@ const OwnerDashboardPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const ownerId = localStorage.getItem('rentease_userId');
+    if (!ownerId) {
+      setLoading(false);
+      return;
+    }
     Promise.all([
-      paymentApi.getDashboard().then(res => setStats(res.data)).catch(() => {}),
-      bookingApi.getByOwner().then(res => setRecentBookings(res.data.items?.slice(0, 5) || [])).catch(() => {})
+      paymentApi.getDashboardStats().then(res => setStats(res.data)).catch(() => {}),
+      bookingApi.getByOwner(ownerId).then(res => {
+        const list = res.data?.content || res.data?.items || (Array.isArray(res.data) ? res.data : []);
+        setRecentBookings(list.slice(0, 5));
+      }).catch(() => {})
     ]).finally(() => setLoading(false));
   }, []);
 
@@ -33,7 +41,7 @@ const OwnerDashboardPage = () => {
   return (
     <div>
       <h2 className="mb-4">Owner Dashboard</h2>
-      <div className="grid-4 mb-8">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginBottom: '32px' }}>
         <div className="card"><h3 style={{ color: '#6B7280', fontSize: '14px' }}>Total Vehicles</h3><div style={{ fontSize: '24px', fontWeight: 'bold' }}>{stats.totalVehicles}</div></div>
         <div className="card"><h3 style={{ color: '#6B7280', fontSize: '14px' }}>Pending Requests</h3><div style={{ fontSize: '24px', fontWeight: 'bold' }}>{stats.pendingRequests}</div></div>
         <div className="card"><h3 style={{ color: '#6B7280', fontSize: '14px' }}>Active Bookings</h3><div style={{ fontSize: '24px', fontWeight: 'bold' }}>{stats.activeBookings}</div></div>
@@ -53,7 +61,7 @@ const OwnerDashboardPage = () => {
                 <td>{b.customerName}</td>
                 <td>{b.vehicleName}</td>
                 <td>{b.startDate} to {b.endDate}</td>
-                <td>LKR {b.totalAmount}</td>
+                <td>LKR {b.estimatedCostLKR}</td>
                 <td><span className="badge-pending">{b.status}</span></td>
                 <td>
                   {b.status === 'REQUESTED' && (

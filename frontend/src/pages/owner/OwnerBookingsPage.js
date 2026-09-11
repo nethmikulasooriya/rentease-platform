@@ -6,8 +6,16 @@ const OwnerBookingsPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    bookingApi.getByOwner()
-      .then(res => setBookings(res.data.items || []))
+    const ownerId = localStorage.getItem('rentease_userId');
+    if (!ownerId) {
+      setLoading(false);
+      return;
+    }
+    bookingApi.getByOwner(ownerId)
+      .then(res => {
+        const list = res.data?.content || res.data?.items || (Array.isArray(res.data) ? res.data : []);
+        setBookings(list);
+      })
       .catch(err => console.error(err))
       .finally(() => setLoading(false));
   }, []);
@@ -22,11 +30,11 @@ const OwnerBookingsPage = () => {
             <tbody>
               {bookings.map(b => (
                 <tr key={b.id}>
-                  <td>#{b.id.substring(0,6)}</td>
+                  <td>#{b.id}</td>
                   <td>{b.customerName}</td>
                   <td>{b.vehicleName}</td>
                   <td>{b.startDate} to {b.endDate}</td>
-                  <td>LKR {b.totalAmount}</td>
+                  <td>LKR {b.estimatedCostLKR}</td>
                   <td><span className="badge-active">{b.status}</span></td>
                 </tr>
               ))}
