@@ -1,6 +1,7 @@
 package com.rentease.catalogservice.service;
 
 import com.rentease.catalogservice.dto.ReviewRequest;
+import com.rentease.catalogservice.dto.VehicleRequest;
 import com.rentease.catalogservice.dto.VehicleSearchRequest;
 import com.rentease.catalogservice.entity.Review;
 import com.rentease.catalogservice.entity.Vehicle;
@@ -86,7 +87,30 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     @Transactional
-    public Vehicle createVehicle(Vehicle v) {
+    public Vehicle createVehicle(VehicleRequest req) {
+        if (req.getOwnerId() == null) {
+            throw new IllegalArgumentException("Owner ID is required to create a vehicle");
+        }
+
+        Vehicle v = new Vehicle();
+        v.setOwnerId(req.getOwnerId());
+        v.setBrand(req.getBrand());
+        v.setModel(req.getModel());
+        v.setYear(req.getYear());
+        v.setCategory(req.getCategory());
+        v.setSeats(req.getSeats());
+        v.setTransmission(req.getTransmission());
+        v.setFuel(req.getFuel());
+        v.setHasAC(req.getHasAC());
+        v.setDailyRateLKR(req.getDailyRateLKR());
+        v.setBaseKmPerDay(req.getBaseKmPerDay());
+        v.setExtraRatePerKm(req.getExtraRatePerKm());
+        v.setCity(req.getCity());
+        v.setDistrict(req.getDistrict());
+        v.setDescription(req.getDescription());
+        v.setStatus(req.getStatus() != null ? req.getStatus() : "ACTIVE");
+        v.setPrimaryImageUrl(req.getPrimaryImageUrl());
+
         return vehicleRepository.save(v);
     }
 

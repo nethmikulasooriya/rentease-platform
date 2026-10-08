@@ -14,9 +14,24 @@ const AddVehiclePage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const ownerId = localStorage.getItem('rentease_userId');
+    if (!ownerId) {
+      alert('Please log in as an owner before adding a vehicle.');
+      navigate('/owner/login');
+      return;
+    }
+
     setLoading(true);
     try {
-      await catalogApi.createVehicle({ ...form, year: Number(form.year), seats: Number(form.seats), dailyRate: Number(form.dailyRate), baseKmPerDay: Number(form.baseKmPerDay), extraRatePerKm: Number(form.extraRatePerKm) });
+      await catalogApi.createVehicle({
+        ...form,
+        ownerId: Number(ownerId),
+        year: Number(form.year),
+        seats: Number(form.seats),
+        dailyRateLKR: Number(form.dailyRate),
+        baseKmPerDay: Number(form.baseKmPerDay),
+        extraRatePerKm: Number(form.extraRatePerKm)
+      });
       navigate('/owner/vehicles');
     } catch (err) {
       alert('Error adding vehicle: ' + (err.response?.data?.message || err.message));

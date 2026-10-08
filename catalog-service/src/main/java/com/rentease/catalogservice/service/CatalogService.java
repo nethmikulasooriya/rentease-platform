@@ -1,6 +1,7 @@
 package com.rentease.catalogservice.service;
 
 import com.rentease.catalogservice.dto.ReviewRequest;
+import com.rentease.catalogservice.dto.VehicleRequest;
 import com.rentease.catalogservice.dto.VehicleSearchRequest;
 import com.rentease.catalogservice.entity.Review;
 import com.rentease.catalogservice.entity.Vehicle;
@@ -14,7 +15,7 @@ public interface CatalogService {
     Page<Vehicle> searchVehicles(VehicleSearchRequest req);
     Vehicle getById(Long id);
     List<Vehicle> getByOwner(Long ownerId);
-    Vehicle createVehicle(Vehicle v);
+    Vehicle createVehicle(VehicleRequest request);
     Vehicle updateVehicle(Long id, Vehicle v);
     void deleteVehicle(Long id);
     VehicleImage addImage(Long vehicleId, String imageUrl, boolean isPrimary);

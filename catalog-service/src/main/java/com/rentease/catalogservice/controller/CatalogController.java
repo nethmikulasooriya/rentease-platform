@@ -1,6 +1,7 @@
 package com.rentease.catalogservice.controller;
 
 import com.rentease.catalogservice.dto.ReviewRequest;
+import com.rentease.catalogservice.dto.VehicleRequest;
 import com.rentease.catalogservice.dto.VehicleResponse;
 import com.rentease.catalogservice.dto.VehicleSearchRequest;
 import com.rentease.catalogservice.entity.Review;
@@ -96,8 +97,14 @@ public class CatalogController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Vehicle createVehicle(@RequestBody Vehicle vehicle) {
-        return catalogService.createVehicle(vehicle);
+    public Vehicle createVehicle(
+            @RequestBody VehicleRequest request,
+            @RequestHeader(value = "X-User-Id", required = false) Long userId
+    ) {
+        if (request.getOwnerId() == null && userId != null) {
+            request.setOwnerId(userId);
+        }
+        return catalogService.createVehicle(request);
     }
 
     @PutMapping("/{id}")
